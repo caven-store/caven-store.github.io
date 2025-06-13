@@ -19,10 +19,9 @@
         }
         body { font-family: var(--font-main); margin: 0; background-color: var(--background-color); color: var(--text-color); }
         header { background-color: var(--primary-color); color: var(--header-text-color); padding: 15px 20px; text-align: center; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 5; }
-        .header-title { font-size: 1.8em; font-weight: 700; }
-        .search-container { width: 50%; }
-        #search-bar { width: 100%; padding: 10px; border-radius: 8px; border: none; background-color: var(--background-color); color: var(--text-color); font-size: 1em; }
         .hamburger-menu { font-size: 2em; cursor: pointer; }
+        .search-container { width: 35%; }
+        #search-bar { width: 100%; padding: 10px; border-radius: 8px; border: none; background-color: var(--background-color); color: var(--text-color); font-size: 1em; }
         .sidebar { height: 100%; width: 280px; position: fixed; z-index: 10; top: 0; left: -280px; background-color: var(--primary-color); overflow-x: hidden; transition: 0.5s; padding-top: 60px; }
         .sidebar-active .sidebar { left: 0; }
         .sidebar .close-btn { position: absolute; top: 15px; right: 25px; font-size: 36px; color: var(--text-color); text-decoration: none; }
@@ -44,6 +43,24 @@
         .order-button:hover { background-color: #5a8ec9; }
         .loading-message { font-size: 1.5em; text-align: center; color: var(--text-color); }
         footer { text-align: center; padding: 40px 20px; background-color: var(--primary-color); color: var(--text-color); margin-top: 30px; }
+        
+        /* --- STIL POU LOGO AK HEADER --- */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px; /* Espas ant logo a ak tèks la */
+            position: absolute; /* Pou mete l nan mitan */
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .logo-img {
+            width: 35px; /* Gwosè logo a */
+            height: 35px;
+        }
+        .header-title {
+            font-size: 1.6em;
+            font-weight: 700;
+        }
     </style>
 </head>
 <body>
@@ -54,7 +71,12 @@
     </nav>
     <header>
         <div class="hamburger-menu">&#9776;</div>
-        <div class="header-title">Booming Store</div>
+        
+        <div class="logo-container">
+            <img src="https://icongr.am/feather/shopping-bag.svg?color=ffffff" alt="Booming Store Logo" class="logo-img">
+            <span class="header-title">Booming Store</span>
+        </div>
+        
         <div class="search-container">
             <input type="search" id="search-bar" placeholder="Chèche yon pwodwi...">
         </div>

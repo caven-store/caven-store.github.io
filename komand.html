@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pase Kòmann - Booming Store</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; color: #333; margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: 40px auto; padding: 30px; background-color: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; text-align: center; }
+        .product-name { background-color: #ecf0f1; padding: 15px; border-radius: 5px; margin-bottom: 20px; font-size: 1.2em; text-align: center; font-weight: bold; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+        .submit-button { display: block; width: 100%; padding: 15px; background-color: #27ae60; color: white; border: none; border-radius: 5px; font-size: 1.1em; font-weight: bold; cursor: pointer; transition: background-color 0.3s; }
+        .submit-button:hover { background-color: #229954; }
+        .back-link { display: block; text-align: center; margin-top: 20px; color: #3498db; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Konfime Kòmann Ou</h1>
+
+        <div class="product-name" id="product-display">
+            </div>
+
+        <form id="order-form" action="https://formspree.io/f/mwpbojgy" method="POST">
+            
+            <input type="hidden" id="product-input" name="Pwodwi">
+
+            <div class="form-group">
+                <label for="name">Non konplè ou</label>
+                <input type="text" id="name" name="Non Kliyan" required>
+            </div>
+            <div class="form-group">
+                <label for="contact">Imèl ou Telefòn ou</label>
+                <input type="text" id="contact" name="Kontak Kliyan" required>
+            </div>
+            
+            <button type="submit" class="submit-button">Voye Kòmann sa a</button>
+        </form>
+
+        <a href="index.html" class="back-link">Retounen nan boutik la</a>
+    </div>
+
+    <script>
+        // Kòd sa a la pou l pran non pwodwi a nan lyen an epi afiche l
+        const params = new URLSearchParams(window.location.search);
+        const productName = params.get('pwodwi');
+
+        if (productName) {
+            document.getElementById('product-display').textContent = productName;
+            document.getElementById('product-input').value = productName;
+        } else {
+            document.getElementById('product-display').textContent = 'Pwodwi pa espesifye';
+        }
+    </script>
+
+</body>
+</html>

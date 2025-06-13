@@ -1,0 +1,91 @@
+<script>
+    const gallery = document.getElementById('product-gallery');
+    const searchBar = document.getElementById('search-bar');
+    const categoryList = document.getElementById('category-list');
+    const hamburger = document.querySelector('.hamburger-menu');
+    const closeBtn = document.querySelector('.close-btn');
+    let allProducts = [];
+
+    const DATABASE_URL = 'https://docs.google.com/spreadsheets/d/13GodGq2xIkY7W0v6OeTBD0tgyDJ2lRQAGjO4-83fFqY/gviz/tq?tqx=out:json'; 
+
+    function displayProducts(productsToDisplay) {
+        gallery.innerHTML = '';
+        if (productsToDisplay.length === 0) {
+            gallery.innerHTML = '<p class="loading-message">Okenn pwodwi pa koresponn.</p>';
+            return;
+        }
+        productsToDisplay.forEach(product => {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            
+            let priceHTML = `<p class="product-price">${product.price}</p>`;
+            // Si pwodwi a an pwomosyon, montre de pri yo
+            if (product.on_promotion === 'WI' && product.sale_price) {
+                priceHTML = `<p class="product-price">
+                    <span style="font-size: 1.2em; color: #e94560;">${product.sale_price}</span> 
+                    <span style="font-size: 0.9em; text-decoration: line-through; color: #888; margin-left: 10px;">${product.price}</span>
+                </p>`;
+            }
+
+            card.innerHTML = `<img src="${product.imageurl}" alt="${product.name}" class="product-image"><div class="product-info"><p class="product-title">${product.name}</p><p class="product-description">${product.description}</p>${priceHTML}</div><div class="product-actions"><a href="komand.html?pwodwi=${encodeURIComponent(product.name)}" class="order-button">Kòmande</a></div>`;
+            gallery.appendChild(card);
+        });
+    }
+
+    function filterProducts() {
+        const searchTerm = searchBar.value.toLowerCase();
+        const selectedCategory = document.querySelector('.category-link.active')?.dataset.category;
+        let filteredProducts = allProducts;
+        if (selectedCategory && selectedCategory !== 'Tout') {
+            filteredProducts = filteredProducts.filter(p => p.category === selectedCategory);
+        }
+        if (searchTerm) {
+            filteredProducts = filteredProducts.filter(p => p.name.toLowerCase().includes(searchTerm) || p.description.toLowerCase().includes(searchTerm));
+        }
+        displayProducts(filteredProducts);
+    }
+
+    function setupCategories() {
+        categoryList.innerHTML = '';
+        
+        // AJOUTE LYEN PWOMOSYON AN
+        const promoLi = document.createElement('li');
+        promoLi.innerHTML = `<a href="promosyon.html" style="color: #e94560; font-weight: bold;">🔥 Pwomosyon Espesyal</a>`;
+        categoryList.appendChild(promoLi);
+        const separatorLi = document.createElement('li');
+        separatorLi.innerHTML = `<hr style="border-color: #0f3460;">`;
+        categoryList.appendChild(separatorLi);
+
+        const categories = ['Tout', ...new Set(allProducts.map(p => p.category).filter(c => c))];
+        categories.forEach(category => {
+            const li = document.createElement('li');
+            li.innerHTML = `<a href="#" class="category-link" data-category="${category}">${category}</a>`;
+            categoryList.appendChild(li);
+        });
+        
+        document.querySelectorAll('.category-link').forEach(link => { link.addEventListener('click', function(e) { e.preventDefault(); document.querySelectorAll('.category-link').forEach(l => l.classList.remove('active')); this.classList.add('active'); filterProducts(); document.body.classList.remove('sidebar-active'); }); });
+        const allCategoryLink = document.querySelector('.category-link[data-category="Tout"]');
+        if (allCategoryLink) allCategoryLink.classList.add('active');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        fetch(DATABASE_URL)
+            .then(response => response.text())
+            .then(text => {
+                const jsonData = JSON.parse(text.substring(47, text.length - 2));
+                allProducts = jsonData.table.rows.map(row => ({
+                    name: row.c[0]?.v || '', category: row.c[1]?.v || '',
+                    description: row.c[2]?.v || '', price: row.c[3]?.v || '',
+                    imageurl: row.c[4]?.v || '', sale_price: row.c[5]?.v || null,
+                    on_promotion: row.c[6]?.v || ''
+                }));
+                displayProducts(allProducts);
+                setupCategories();
+            })
+            .catch(error => { console.error("Erè:", error); gallery.innerHTML = '<p class="loading-message">Erè: Nou pa ka chaje pwodwi yo.</p>'; });
+    });
+
+    hamburger.addEventListener('click', () => { document.body.classList.add('sidebar-active'); });
+    closeBtn.addEventListener('click', (e) => { e.preventDefault(); document.body.classList.remove('sidebar-active'); });
+    searchBar.addEventListener('input', filterProducts);
+</script>

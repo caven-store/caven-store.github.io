@@ -76,8 +76,9 @@
         <p>Kontakte nou pou tout enfòmasyon ou bezwen.</p>
         <a href="mailto:cdish23@gmail.com" class="contact-button">Voye yon imèl pou nou</a>
     </footer>
-    <script>
-    // LIS PWODWI AK IMAJ KI KORIJE
+
+  <script>
+    // LIS PWODWI AK IMAJ KI KÒRÈK
     const allProducts = [
         { 
             category: 'Akseswa Kay', 
@@ -123,8 +124,6 @@
         }
     ];
 
-    // ... (Tout rès kòd script la rete menm jan) ...
-    // [Rès kòd la pa chanje]
     const gallery = document.getElementById('product-gallery');
     const searchBar = document.getElementById('search-bar');
     const categoryList = document.getElementById('category-list');
@@ -137,7 +136,6 @@
     closeBtn.addEventListener('click', (e) => { e.preventDefault(); document.body.classList.remove('sidebar-active'); });
     searchBar.addEventListener('input', filterProducts);
     document.addEventListener('DOMContentLoaded', () => { setupCategories(); displayProducts(allProducts); const allCategoryLink = document.querySelector('.category-link[data-category="Tout"]'); if (allCategoryLink) { allCategoryLink.classList.add('active'); } });
-
-</script>
+</script> 
 </body>
 </html>

@@ -9,19 +9,16 @@
     <title>Booming Store</title>
     <style>
         :root {
-        
-    --background-color: #121212; /* Yon nwa fonse */
-    --card-color: #1E1E1E;     /* Yon gri trè fonse pou kat yo */
-    --primary-color: #0D0D0D;  /* Yon nwa pou header/footer */
-    --accent-color: #FFA500;   /* Yon bèl koulè Oranj */
-    --text-color: #EAEAEA;     /* Yon blan-gri pou tèks yo */
-    --header-text-color: #FFFFFF;
-    --font-main: 'Poppins', sans-serif;
-
+            --background-color: #121212; --card-color: #1E1E1E; --primary-color: #0D0D0D;
+            --accent-color: #FFA500; --text-color: #EAEAEA; --header-text-color: #FFFFFF;
+            --success-color: #00b894; --font-main: 'Poppins', sans-serif;
         }
         body { font-family: var(--font-main); margin: 0; background-color: var(--background-color); color: var(--text-color); }
         header { background-color: var(--primary-color); color: var(--header-text-color); padding: 15px 20px; text-align: center; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 5; }
-        .hamburger-menu { font-size: 2em; cursor: pointer; }
+        .logo-container { display: flex; align-items: center; gap: 12px; position: absolute; left: 50%; transform: translateX(-50%); }
+        .logo-img { width: 35px; height: 35px; }
+        .header-title { font-size: 1.6em; font-weight: 700; }
+        .hamburger-menu { font-size: 2em; cursor: pointer; z-index: 1; }
         .search-container { width: 35%; }
         #search-bar { width: 100%; padding: 10px; border-radius: 8px; border: none; background-color: var(--background-color); color: var(--text-color); font-size: 1em; }
         .sidebar { height: 100%; width: 280px; position: fixed; z-index: 10; top: 0; left: -280px; background-color: var(--primary-color); overflow-x: hidden; transition: 0.5s; padding-top: 60px; }
@@ -29,98 +26,183 @@
         .sidebar .close-btn { position: absolute; top: 15px; right: 25px; font-size: 36px; color: var(--text-color); text-decoration: none; }
         .sidebar h2 { color: var(--accent-color); padding: 0 32px; }
         .sidebar ul { list-style-type: none; padding: 0; }
-        .sidebar ul li a { padding: 10px 32px; text-decoration: none; font-size: 1.1em; color: var(--text-color); display: block; transition: 0.3s; }
+        .sidebar ul li a { padding: 10px 32px; text-decoration: none; font-size: 1.1em; color: var(--text-color); display: block; transition: 0.3s; cursor: pointer; }
         .sidebar ul li a:hover { background-color: var(--accent-color); }
-        main { padding: 20px; }
+        .page { padding: 20px; }
         .product-gallery { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; min-height: 50vh;}
         .product-card { background-color: var(--card-color); border: 1px solid var(--primary-color); border-radius: 12px; width: 310px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s, box-shadow 0.3s; }
-        .product-card:hover { transform: translateY(-10px); box-shadow: 0 8px 25px rgba(63, 114, 175, 0.3); }
+        .product-card:hover { transform: translateY(-10px); box-shadow: 0 8px 25px rgba(255,165,0, 0.2); }
         .product-image { width: 100%; height: 220px; object-fit: cover; background-color: #333; }
         .product-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
         .product-title { font-size: 1.3em; font-weight: 600; margin: 0 0 10px 0; color: var(--header-text-color); }
         .product-description { font-size: 0.9em; margin: 0 0 15px 0; line-height: 1.5; }
         .product-price { font-size: 1.2em; font-weight: 700; color: var(--accent-color); margin-top: auto; }
         .product-actions { padding: 0 20px 20px 20px; }
-        .order-button { display: block; width: 100%; padding: 12px; background-color: var(--accent-color); color: white; text-align: center; text-decoration: none; border-radius: 8px; font-weight: 600; box-sizing: border-box; transition: background-color 0.3s; }
-        .order-button:hover { background-color: #5a8ec9; }
+        .order-button { display: block; width: 100%; padding: 12px; background-color: var(--accent-color); color: white; text-align: center; text-decoration: none; border-radius: 8px; font-weight: 600; box-sizing: border-box; transition: background-color 0.3s; cursor: pointer;}
+        .order-button:hover { opacity: 0.8; }
         .loading-message { font-size: 1.5em; text-align: center; color: var(--text-color); }
         footer { text-align: center; padding: 40px 20px; background-color: var(--primary-color); color: var(--text-color); margin-top: 30px; }
-        
-        /* --- STIL POU LOGO AK HEADER --- */
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 12px; /* Espas ant logo a ak tèks la */
-            position: absolute; /* Pou mete l nan mitan */
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        .logo-img {
-            width: 35px; /* Gwosè logo a */
-            height: 35px;
-        }
-        .header-title {
-            font-size: 1.6em;
-            font-weight: 700;
-        }
+        .thank-you-container { max-width: 700px; margin: 60px auto; padding: 40px; background-color: var(--card-color); text-align: center; border-radius: 12px; }
+        .thank-you-container h1 { font-size: 2.5em; color: var(--success-color); margin-top: 0; }
+        .thank-you-container p { font-size: 1.1em; line-height: 1.6; }
+        .instructions { margin-top: 30px; padding: 20px; border: 1px solid var(--primary-color); border-radius: 8px; text-align: left; }
+        .instructions h2 { color: var(--success-color); }
+        .payment-info { font-size: 1.2em; font-weight: bold; color: var(--header-text-color); background-color: var(--background-color); padding: 10px; border-radius: 5px; }
+        .form-container { max-width: 600px; margin: 40px auto; padding: 40px; background-color: var(--card-color); border-radius: 12px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; }
+        .form-group input { width: 100%; padding: 12px; border: 1px solid var(--primary-color); background-color: var(--background-color); color: var(--text-color); border-radius: 8px; box-sizing: border-box; }
+        .submit-button { display: block; width: 100%; padding: 15px; background-color: var(--accent-color); color: white; border: none; border-radius: 8px; font-size: 1.1em; font-weight: bold; cursor: pointer; }
+        .back-link { display: inline-block; margin-top: 25px; color: var(--accent-color); cursor: pointer; }
     </style>
 </head>
 <body>
-    <nav id="category-menu" class="sidebar">
-        <a href="#" class="close-btn">&times;</a>
-        <h2>Kategori</h2>
-        <ul id="category-list"></ul>
-    </nav>
-    <header>
-        <div class="hamburger-menu">&#9776;</div>
-        
-        <div class="logo-container">
-            <img src="https://icongr.am/feather/shopping-bag.svg?color=ffffff" alt="Booming Store Logo" class="logo-img">
-            <span class="header-title">Booming Store</span>
+    <div id="app">
+        <nav id="category-menu" class="sidebar">
+            <a href="javascript:void(0)" class="close-btn">&times;</a>
+            <h2>Kategori</h2>
+            <ul id="category-list"></ul>
+        </nav>
+        <header>
+            <div class="hamburger-menu">&#9776;</div>
+            <div class="logo-container">
+                <img src="https://icongr.am/feather/shopping-bag.svg?color=ffffff" alt="Booming Store Logo" class="logo-img">
+                <span class="header-title">Booming Store</span>
+            </div>
+            <div class="search-container">
+                <input type="search" id="search-bar" placeholder="Chèche yon pwodwi...">
+            </div>
+        </header>
+
+        <div id="page-main" class="page">
+            <main><div class="product-gallery" id="product-gallery"><p class="loading-message">Ap chaje pwodwi yo...</p></div></main>
         </div>
-        
-        <div class="search-container">
-            <input type="search" id="search-bar" placeholder="Chèche yon pwodwi...">
+
+        <div id="page-order" class="page" style="display: none;">
+            <div class="form-container">
+                <h1>Konfime Kòmann Ou</h1>
+                <div class="product-name" id="order-product-display"></div>
+                <form id="order-form" action="https://formspree.io/f/YOUR_UNIQUE_CODE" method="POST">
+                    <input type="hidden" name="_next" value="#" id="form-redirect">
+                    <input type="hidden" id="order-product-input" name="Pwodwi">
+                    <div class="form-group"><label for="name">Non konplè ou</label><input type="text" id="name" name="Non Kliyan" required></div>
+                    <div class="form-group"><label for="contact">Imèl ou Telefòn ou</label><input type="text" id="contact" name="Kontak Kliyan" required></div>
+                    <div class="form-group"><label for="quantity">Kantite</label><input type="number" id="quantity" name="Kantite" value="1" min="1" required></div>
+                    <button type="submit" class="submit-button">Voye Kòmann sa a</button>
+                </form>
+                <a class="back-link" onclick="showPage('main')">Retounen nan boutik la</a>
+            </div>
         </div>
-    </header>
-    <main>
-        <div class="product-gallery" id="product-gallery">
-            <p class="loading-message">Ap chaje pwodwi yo, tanpri tann...</p>
+
+        <div id="page-thank-you" class="page" style="display: none;">
+            <div class="thank-you-container">
+                <h1>Mèsi Anpil!</h1>
+                <p>Nou byen resevwa kòmann ou an. N ap kontakte w sou lakay yon ti moman pou nou konfime tout bagay avè w.</p>
+                <div class="instructions">
+                    <h2>Pwochen Etap: Peman</h2>
+                    <p>Pou finalize kòmann ou an, tanpri voye montan total la pa <strong>MonCash</strong> sou nimewo sa a:</p>
+                    <p class="payment-info">0000-0000</p>
+                    <p>Pa bliye mete non w ou nimewo kòmann nan kòm referans.</p>
+                </div>
+                <a class="back-link" onclick="showPage('main')">Retounen nan Paj Akèy la</a>
+            </div>
         </div>
-    </main>
-    <footer>
-        <h2>Ou gen yon kesyon sou yon pwodwi ?</h2>
-        <p>Kontakte nou pou tout enfòmasyon ou bezwen.</p>
-        <a href="mailto:cdish23@gmail.com" class="contact-button">Voye yon imèl pou nou</a>
-    </footer>
+
+        <footer><h2>Ou gen yon kesyon?</h2><p>Kontakte nou pou tout enfòmasyon.</p><a href="mailto:cdish23@gmail.com" class="contact-button">Voye yon imèl</a></footer>
+    </div>
 
     <script>
-        const gallery = document.getElementById('product-gallery');
-        const searchBar = document.getElementById('search-bar');
-        const categoryList = document.getElementById('category-list');
-        const hamburger = document.querySelector('.hamburger-menu');
-        const closeBtn = document.querySelector('.close-btn');
+        const DATABASE_URL = 'https://docs.google.com/spreadsheets/d/13GodGq2xIkY7W0v6OeTBD0tgyDJ2lRQAGjO4-83fFqY/gviz/tq?tqx=out:json';
         let allProducts = [];
+        const app = document.getElementById('app');
+        const pages = {
+            main: document.getElementById('page-main'),
+            order: document.getElementById('page-order'),
+            thankYou: document.getElementById('page-thank-you')
+        };
+        
+        function showPage(pageName, data) {
+            Object.values(pages).forEach(page => page.style.display = 'none');
+            pages[pageName].style.display = 'block';
+            window.scrollTo(0, 0);
 
-        const DATABASE_URL = 'https://docs.google.com/spreadsheets/d/13GodGq2xIkY7W0v6OeTBD0tgyDJ2lRQAGjO4-83fFqY/gviz/tq?tqx=out:json'; 
-
+            if (pageName === 'order' && data) {
+                document.getElementById('order-product-display').textContent = data.productName;
+                document.getElementById('order-product-input').value = data.productName;
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('order-form');
+            form.addEventListener('submit', () => {
+                setTimeout(() => { showPage('thankYou'); form.reset(); }, 500);
+            });
+            
+            fetch(DATABASE_URL)
+                .then(res => res.text()).then(text => {
+                    const jsonData = JSON.parse(text.substring(47, text.length - 2));
+                    allProducts = jsonData.table.rows.map(row => ({
+                        name: row.c[0]?.v || '', category: row.c[1]?.v || '',
+                        description: row.c[2]?.v || '', price: row.c[3]?.v || '',
+                        imageurl: row.c[4]?.v || ''
+                    }));
+                    displayProducts(allProducts);
+                    setupCategories();
+                }).catch(err => {
+                    console.error("Erè chajman done yo:", err);
+                    document.getElementById('product-gallery').innerHTML = '<p class="loading-message">Erè: Nou pa ka chaje pwodwi yo.</p>';
+                });
+        });
+        
         function displayProducts(productsToDisplay) {
+            const gallery = document.getElementById('product-gallery');
             gallery.innerHTML = '';
-            if (productsToDisplay.length === 0) {
-                gallery.innerHTML = '<p class="loading-message">Okenn pwodwi pa koresponn.</p>';
-                return;
+            if (!productsToDisplay || productsToDisplay.length === 0) {
+                gallery.innerHTML = '<p class="loading-message">Okenn pwodwi pa koresponn.</p>'; return;
             }
             productsToDisplay.forEach(product => {
                 const card = document.createElement('div');
                 card.className = 'product-card';
-                card.innerHTML = `<img src="${product.imageurl}" alt="${product.name}" class="product-image"><div class="product-info"><p class="product-title">${product.name}</p><p class="product-description">${product.description}</p><p class="product-price">${product.price}</p></div><div class="product-actions"><a href="komand.html?pwodwi=${encodeURIComponent(product.name)}" class="order-button">Kòmande</a></div>`;
+                card.innerHTML = `<img src="${product.imageurl}" alt="${product.name}" class="product-image"><div class="product-info"><p class="product-title">${product.name}</p><p class="product-description">${product.description}</p><p class="product-price">${product.price}</p></div>`;
+                const actions = document.createElement('div');
+                actions.className = 'product-actions';
+                const orderButton = document.createElement('a');
+                orderButton.className = 'order-button';
+                orderButton.textContent = 'Kòmande';
+                orderButton.onclick = () => showPage('order', { productName: product.name });
+                actions.appendChild(orderButton);
+                card.appendChild(actions);
                 gallery.appendChild(card);
             });
         }
+        
+        function setupCategories() {
+            const categoryList = document.getElementById('category-list');
+            categoryList.innerHTML = '';
+            const categories = ['Tout', ...new Set(allProducts.map(p => p.category).filter(c => c))];
+            categories.forEach(category => {
+                const li = document.createElement('li');
+                const link = document.createElement('a');
+                link.className = 'category-link';
+                link.dataset.category = category;
+                link.textContent = category;
+                link.onclick = (e) => {
+                    e.preventDefault();
+                    document.querySelectorAll('.category-link').forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                    filterProducts();
+                    document.body.classList.remove('sidebar-active');
+                };
+                li.appendChild(link);
+                categoryList.appendChild(li);
+            });
+            document.querySelector('.category-link[data-category="Tout"]')?.classList.add('active');
+        }
 
         function filterProducts() {
-            const searchTerm = searchBar.value.toLowerCase();
-            const selectedCategory = document.querySelector('.category-link.active')?.dataset.category;
+            const searchTerm = document.getElementById('search-bar').value.toLowerCase();
+            const activeCategoryLink = document.querySelector('.category-link.active');
+            const selectedCategory = activeCategoryLink ? activeCategoryLink.dataset.category : 'Tout';
             let filteredProducts = allProducts;
             if (selectedCategory && selectedCategory !== 'Tout') {
                 filteredProducts = filteredProducts.filter(p => p.category === selectedCategory);
@@ -130,42 +212,10 @@
             }
             displayProducts(filteredProducts);
         }
-
-        function setupCategories() {
-            categoryList.innerHTML = '';
-            const categories = ['Tout', ...new Set(allProducts.map(p => p.category).filter(c => c))];
-            categories.forEach(category => {
-                const li = document.createElement('li');
-                li.innerHTML = `<a href="#" class="category-link" data-category="${category}">${category}</a>`;
-                categoryList.appendChild(li);
-            });
-            document.querySelectorAll('.category-link').forEach(link => { link.addEventListener('click', function(e) { e.preventDefault(); document.querySelectorAll('.category-link').forEach(l => l.classList.remove('active')); this.classList.add('active'); filterProducts(); document.body.classList.remove('sidebar-active'); }); });
-            const allCategoryLink = document.querySelector('.category-link[data-category="Tout"]');
-            if (allCategoryLink) allCategoryLink.classList.add('active');
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            fetch(DATABASE_URL)
-                .then(response => response.text())
-                .then(text => {
-                    const jsonData = JSON.parse(text.substring(47, text.length - 2));
-                    allProducts = jsonData.table.rows.map(row => ({
-                        name: row.c[0]?.v || '', category: row.c[1]?.v || '',
-                        description: row.c[2]?.v || '', price: row.c[3]?.v || '',
-                        imageurl: row.c[4]?.v || ''
-                    }));
-                    displayProducts(allProducts);
-                    setupCategories();
-                })
-                .catch(error => {
-                    console.error("Erè:", error);
-                    gallery.innerHTML = '<p class="loading-message">Erè: Nou pa ka chaje pwodwi yo.</p>';
-                });
-        });
-
-        hamburger.addEventListener('click', () => { document.body.classList.add('sidebar-active'); });
-        closeBtn.addEventListener('click', (e) => { e.preventDefault(); document.body.classList.remove('sidebar-active'); });
-        searchBar.addEventListener('input', filterProducts);
+        
+        document.querySelector('.hamburger-menu').addEventListener('click', () => document.body.classList.add('sidebar-active'));
+        document.querySelector('.close-btn').addEventListener('click', (e) => { e.preventDefault(); document.body.classList.remove('sidebar-active'); });
+        document.getElementById('search-bar').addEventListener('input', filterProducts);
     </script>
 </body>
 </html>

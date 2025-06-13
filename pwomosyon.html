@@ -47,51 +47,61 @@
         <a href="index.html" class="back-link"> Gade tout pwodwi yo </a>
     </main>
     <script>
-        const gallery = document.getElementById('product-gallery');
-        const DATABASE_URL = 'https://docs.google.com/spreadsheets/d/13GodGq2xIkY7W0v6OeTBD0tgyDJ2lRQAGjO4-83fFqY/gviz/tq?tqx=out:json'; 
+    const gallery = document.getElementById('product-gallery');
+    // MEN LYEN KÒRÈK LA:
+    const DATABASE_URL = 'https://docs.google.com/spreadsheets/d/13GodGq2xIkY7W0v6OeTBD0tgyDJ2lRQAGjO4-83fFqY/gviz/tq?tqx=out:json'; 
 
-        function displayProducts(productsToDisplay) {
-            gallery.innerHTML = '';
-            if (productsToDisplay.length === 0) {
-                gallery.innerHTML = '<p class="loading-message">Pa gen okenn pwomosyon pou kounye a.</p>';
-                return;
-            }
-            productsToDisplay.forEach(product => {
-                const card = document.createElement('div');
-                card.className = 'product-card';
-                let priceHTML = `<p class="product-price"><span class="sale-price">${product.price}</span></p>`;
-                if (product.sale_price) {
-                    priceHTML = `<p class="product-price">
-                        <span class="sale-price">${product.sale_price}</span> 
-                        <span class="original-price">${product.price}</span>
-                    </p>`;
-                }
-
-                card.innerHTML = `<img src="${product.imageurl}" alt="${product.name}" class="product-image"><div class="product-info"><p class="product-title">${product.name}</p><p class="product-description">${product.description}</p>${priceHTML}</div><div class="product-actions"><a href="komand.html?pwodwi=${encodeURIComponent(product.name)}" class="order-button">Kòmande</a></div>`;
-                gallery.appendChild(card);
-            });
+    function displayProducts(productsToDisplay) {
+        gallery.innerHTML = '';
+        if (productsToDisplay.length === 0) {
+            gallery.innerHTML = '<p class="loading-message">Pa gen okenn pwomosyon pou kounye a.</p>';
+            return;
         }
+        productsToDisplay.forEach(product => {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            let priceHTML = `<p class="product-price"><span class="sale-price">${product.price}</span></p>`;
+            // Si gen yon pri pwomosyon, montre de pri yo
+            if (product.sale_price) {
+                priceHTML = `<p class="product-price">
+                    <span class="sale-price">${product.sale_price}</span> 
+                    <span class="original-price">${product.price}</span>
+                </p>`;
+            }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            fetch(DATABASE_URL)
-                .then(response => response.text())
-                .then(text => {
-                    const jsonData = JSON.parse(text.substring(47, text.length - 2));
-                    const allProducts = jsonData.table.rows.map(row => ({
-                        name: row.c[0]?.v || '', category: row.c[1]?.v || '',
-                        description: row.c[2]?.v || '', price: row.c[3]?.v || '',
-                        imageurl: row.c[4]?.v || '', sale_price: row.c[5]?.v || null,
-                        on_promotion: row.c[6]?.v || ''
-                    }));
-                    
-                    const promotionProducts = allProducts.filter(p => p.on_promotion === 'WI');
-                    displayProducts(promotionProducts);
-                })
-                .catch(error => {
-                    console.error("Erè:", error);
-                    gallery.innerHTML = '<p class="loading-message">Erè: Nou pa ka chaje pwomosyon yo.</p>';
-                });
+            card.innerHTML = `<img src="${product.imageurl}" alt="${product.name}" class="product-image"><div class="product-info"><p class="product-title">${product.name}</p><p class="product-description">${product.description}</p>${priceHTML}</div><div class="product-actions"><a href="komand.html?pwodwi=${encodeURIComponent(product.name)}" class="order-button">Kòmande</a></div>`;
+            gallery.appendChild(card);
         });
-    </script>
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        fetch(DATABASE_URL)
+            .then(response => {
+                if (!response.ok) throw new Error("Repons rezo a pa t OK");
+                return response.text();
+            })
+            .then(text => {
+                // Netwaye repons JSONP Google la pou nou ka jwenn JSON sèlman
+                const jsonData = JSON.parse(text.substring(47, text.length - 2));
+                const allProducts = jsonData.table.rows.map(row => ({
+                    name: row.c[0]?.v || '',
+                    category: row.c[1]?.v || '',
+                    description: row.c[2]?.v || '',
+                    price: row.c[3]?.v || '',
+                    imageurl: row.c[4]?.v || '',
+                    sale_price: row.c[5]?.v || null,
+                    on_promotion: row.c[6]?.v || ''
+                }));
+                
+                // Filtre pou pran sèlman pwodwi ki an pwomosyon
+                const promotionProducts = allProducts.filter(p => p.on_promotion === 'WI');
+                displayProducts(promotionProducts);
+            })
+            .catch(error => {
+                console.error("Erè:", error);
+                gallery.innerHTML = '<p class="loading-message">Erè: Nou pa ka chaje pwomosyon yo.</p>';
+            });
+    });
+</script>
 </body>
 </html>

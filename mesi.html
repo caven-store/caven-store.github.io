@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Mèsi - Booming Store</title>
+    <style>
+        :root {
+            --background-color: #121212;
+            --card-color: #1E1E1E;
+            --primary-color: #0D0D0D;
+            --accent-color: #00b894; /* Yon bèl vèt pou siksè */
+            --text-color: #EAEAEA;
+            --header-text-color: #FFFFFF;
+            --font-main: 'Poppins', sans-serif;
+        }
+        body { font-family: var(--font-main); background-color: var(--background-color); color: var(--text-color); margin: 0; padding: 0; }
+        header { background-color: var(--primary-color); color: var(--header-text-color); padding: 15px 20px; display: flex; justify-content: center; align-items: center; }
+        .logo-container { display: flex; align-items: center; gap: 12px; }
+        .logo-img { width: 35px; height: 35px; }
+        .header-title { font-size: 1.6em; font-weight: 700; }
+        .thank-you-container { max-width: 700px; margin: 60px auto; padding: 40px; background-color: var(--card-color); text-align: center; border-radius: 12px; }
+        .thank-you-container h1 { font-size: 2.5em; color: var(--accent-color); margin-top: 0; }
+        .thank-you-container p { font-size: 1.1em; line-height: 1.6; }
+        .instructions { margin-top: 30px; padding: 20px; border: 1px solid var(--primary-color); border-radius: 8px; text-align: left; }
+        .instructions h2 { color: var(--accent-color); }
+        .payment-info { font-size: 1.2em; font-weight: bold; color: var(--header-text-color); background-color: var(--background-color); padding: 10px; border-radius: 5px; }
+        .home-link { display: inline-block; margin-top: 40px; padding: 12px 30px; background-color: #3f72af; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="https://icongr.am/feather/shopping-bag.svg?color=ffffff" alt="Booming Store Logo" class="logo-img">
+            <span class="header-title">Booming Store</span>
+        </div>
+    </header>
+    <div class="thank-you-container">
+        <h1>Mèsi Anpil!</h1>
+        <p>Nou byen resevwa kòmann ou an. N ap kontakte w sou lakay yon ti moman pou nou konfime tout bagay avè w.</p>
+        <div class="instructions">
+            <h2>Pwochen Etap: Peman</h2>
+            <p>Pou finalize kòmann ou an, tanpri voye montan total la pa **MonCash** sou nimewo sa a:</p>
+            <p class="payment-info">0000-0000</p>
+            <p>Pa bliye mete non w ou nimewo kòmann nan kòm referans.</p>
+        </div>
+        <a href="index.html" class="home-link">Retounen nan Paj Akèy la</a>
+    </div>
+</body>
+</html>

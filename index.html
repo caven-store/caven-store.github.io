@@ -18,7 +18,7 @@
             --font-main: 'Poppins', sans-serif;
         }
         body { font-family: var(--font-main); margin: 0; background-color: var(--background-color); color: var(--text-color); }
-        header { background-color: var(--primary-color); color: var(--header-text-color); padding: 15px 20px; text-align: center; display: flex; justify-content: space-between; align-items: center; }
+        header { background-color: var(--primary-color); color: var(--header-text-color); padding: 15px 20px; text-align: center; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 5; }
         .header-title { font-size: 1.8em; font-weight: 700; }
         .search-container { width: 50%; }
         #search-bar { width: 100%; padding: 10px; border-radius: 8px; border: none; background-color: var(--background-color); color: var(--text-color); font-size: 1em; }
@@ -34,7 +34,7 @@
         .product-gallery { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; }
         .product-card { background-color: var(--card-color); border: 1px solid var(--primary-color); border-radius: 12px; width: 310px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s, box-shadow 0.3s; }
         .product-card:hover { transform: translateY(-10px); box-shadow: 0 8px 25px rgba(63, 114, 175, 0.3); }
-        .product-image { width: 100%; height: 220px; object-fit: cover; }
+        .product-image { width: 100%; height: 220px; object-fit: cover; background-color: #333; }
         .product-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
         .product-title { font-size: 1.3em; font-weight: 600; margin: 0 0 10px 0; color: var(--header-text-color); }
         .product-description { font-size: 0.9em; margin: 0 0 15px 0; line-height: 1.5; }
@@ -42,6 +42,7 @@
         .product-actions { padding: 0 20px 20px 20px; }
         .order-button { display: block; width: 100%; padding: 12px; background-color: var(--accent-color); color: white; text-align: center; text-decoration: none; border-radius: 8px; font-weight: 600; box-sizing: border-box; transition: background-color 0.3s; }
         .order-button:hover { background-color: #5a8ec9; }
+        .loading-message { font-size: 1.5em; text-align: center; }
         footer { text-align: center; padding: 40px 20px; background-color: var(--primary-color); color: var(--text-color); margin-top: 30px; }
     </style>
 </head>
@@ -59,34 +60,97 @@
         </div>
     </header>
     <main>
-        <div class="product-gallery" id="product-gallery"></div>
+        <div class="product-gallery" id="product-gallery">
+            <p class="loading-message">Ap chaje pwodwi yo, tanpri tann...</p>
+        </div>
     </main>
     <footer>
         <h2>Ou gen yon kesyon sou yon pwodwi ?</h2>
         <p>Kontakte nou pou tout enfòmasyon ou bezwen.</p>
         <a href="mailto:cdish23@gmail.com" class="contact-button">Voye yon imèl pou nou</a>
     </footer>
+
     <script>
-        const allProducts = [
-            { category: 'Akseswa Kay', name: 'Lanp "Sunset" pou Anbyans', description: 'Kreye yon bèl anbyans solèy kouche nan chanm ou.', price: '4,500 G', imageUrl: 'https://images.pexels.com/photos/10054563/pexels-photo-10054563.jpeg?auto=compress&cs=tinysrgb&w=600' },
-            { category: 'Rad', name: 'T-shirt "Oversized" Grafik', description: 'Yon t-shirt ki laj e konfòtab ak yon design grafik ki alamòd.', price: '5,500 G', imageUrl: 'https://images.pexels.com/photos/11028733/pexels-photo-11028733.jpeg?auto=compress&cs=tinysrgb&w=600' },
-            { category: 'Aparèy Elektwonik', name: 'Mini Projektè Pòtab HD', description: 'Gade sinema kote w vle ak mini projektè sa a.', price: '15,000 G', imageUrl: 'https://images.pexels.com/photos/4009409/pexels-photo-4009409.jpeg?auto=compress&cs=tinysrgb&w=600' },
-            { category: 'Bote', name: 'Netwayaj Pinceaux Elektrik', description: 'Netwaye epi seche tout penso makiyaj ou yo an kèk segonn.', price: '3,800 G', imageUrl: 'https://images.pexels.com/photos/7692297/pexels-photo-7692297.jpeg?auto=compress&cs=tinysrgb&w=600' },
-            { category: 'Rad', name: 'Pantalon Kago "Streetwear"', description: 'Pantalon ak anpil pòch, stil laj, ki pafè pou yon look "streetwear".', price: '9,500 G', imageUrl: 'https://images.pexels.com/photos/15942436/pexels-photo-15942436/free-photo-of-man-in-white-t-shirt-and-cargo-trousers.jpeg?auto=compress&cs=tinysrgb&w=600' },
-            { category: 'Soulye', name: 'Tenis "Chunky" Blan', description: 'Tenis platfòm ki alamòd anpil, yo ale ak tout rad.', price: '12,500 G', imageUrl: 'https://images.pexels.com/photos/1598505/pexels-photo-1598505.jpeg?auto=compress&cs=tinysrgb&w=600'}
-        ];
+        // KÒD FINAL - PARE POU BAZ DONE
         const gallery = document.getElementById('product-gallery');
         const searchBar = document.getElementById('search-bar');
         const categoryList = document.getElementById('category-list');
         const hamburger = document.querySelector('.hamburger-menu');
         const closeBtn = document.querySelector('.close-btn');
-        function displayProducts(productsToDisplay) { gallery.innerHTML = ''; productsToDisplay.forEach(product => { const card = document.createElement('div'); card.className = 'product-card'; card.innerHTML = `<img src="${product.imageUrl}" alt="${product.name}" class="product-image"><div class="product-info"><p class="product-title">${product.name}</p><p class="product-description">${product.description}</p><p class="product-price">${product.price}</p></div><div class="product-actions"><a href="komand.html?pwodwi=${encodeURIComponent(product.name)}" class="order-button">Kòmande</a></div>`; gallery.appendChild(card); }); }
-        function filterProducts() { const searchTerm = searchBar.value.toLowerCase(); const selectedCategory = document.querySelector('.category-link.active')?.dataset.category; let filteredProducts = allProducts; if (selectedCategory && selectedCategory !== 'Tout') { filteredProducts = filteredProducts.filter(product => product.category === selectedCategory); } if (searchTerm) { filteredProducts = filteredProducts.filter(product => product.name.toLowerCase().includes(searchTerm) || product.description.toLowerCase().includes(searchTerm)); } displayProducts(filteredProducts); }
-        function setupCategories() { const categories = ['Tout', ...new Set(allProducts.map(p => p.category))]; categoryList.innerHTML = ''; categories.forEach(category => { const li = document.createElement('li'); li.innerHTML = `<a href="#" class="category-link" data-category="${category}">${category}</a>`; categoryList.appendChild(li); }); document.querySelectorAll('.category-link').forEach(link => { link.addEventListener('click', function(e) { e.preventDefault(); document.querySelectorAll('.category-link').forEach(l => l.classList.remove('active')); this.classList.add('active'); filterProducts(); document.body.classList.remove('sidebar-active'); }); }); }
+        let allProducts = []; // Lis sa a pral ranpli pa baz done a
+
+        // LYEN BAZ DONE GOOGLE SHEETS OU A PRAL VINI LA
+        const DATABASE_URL = 'PLACEHOLDER_URL'; 
+
+        function displayProducts(productsToDisplay) {
+            gallery.innerHTML = '';
+            if (productsToDisplay.length === 0) {
+                gallery.innerHTML = '<p class="loading-message">Okenn pwodwi pa koresponn.</p>';
+                return;
+            }
+            productsToDisplay.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `<img src="${product.imageurl}" alt="${product.name}" class="product-image"><div class="product-info"><p class="product-title">${product.name}</p><p class="product-description">${product.description}</p><p class="product-price">${product.price}</p></div><div class="product-actions"><a href="komand.html?pwodwi=${encodeURIComponent(product.name)}" class="order-button">Kòmande</a></div>`;
+                gallery.appendChild(card);
+            });
+        }
+
+        function filterProducts() {
+            const searchTerm = searchBar.value.toLowerCase();
+            const selectedCategory = document.querySelector('.category-link.active')?.dataset.category;
+            let filteredProducts = allProducts;
+            if (selectedCategory && selectedCategory !== 'Tout') {
+                filteredProducts = filteredProducts.filter(p => p.category === selectedCategory);
+            }
+            if (searchTerm) {
+                filteredProducts = filteredProducts.filter(p => p.name.toLowerCase().includes(searchTerm) || p.description.toLowerCase().includes(searchTerm));
+            }
+            displayProducts(filteredProducts);
+        }
+
+        function setupCategories() {
+            const categories = ['Tout', ...new Set(allProducts.map(p => p.category))];
+            categoryList.innerHTML = '';
+            categories.forEach(category => {
+                if (!category) return;
+                const li = document.createElement('li');
+                li.innerHTML = `<a href="#" class="category-link" data-category="${category}">${category}</a>`;
+                categoryList.appendChild(li);
+            });
+            document.querySelectorAll('.category-link').forEach(link => { link.addEventListener('click', function(e) { e.preventDefault(); document.querySelectorAll('.category-link').forEach(l => l.classList.remove('active')); this.classList.add('active'); filterProducts(); document.body.classList.remove('sidebar-active'); }); });
+            const allCategoryLink = document.querySelector('.category-link[data-category="Tout"]');
+            if (allCategoryLink) allCategoryLink.classList.add('active');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch(DATABASE_URL)
+                .then(response => {
+                    if (!response.ok) throw new Error("Repons rezo a pa t OK");
+                    return response.text(); 
+                })
+                .then(text => {
+                    // Netwaye repons JSONP Google la pou nou ka jwenn JSON sèlman
+                    const jsonData = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\((.*)\)/)[1]);
+                    allProducts = jsonData.table.rows.map(row => ({
+                        name: row.c[0]?.v || '',
+                        category: row.c[1]?.v || '',
+                        description: row.c[2]?.v || '',
+                        price: row.c[3]?.v || '',
+                        imageurl: row.c[4]?.v || ''
+                    }));
+                    displayProducts(allProducts);
+                    setupCategories();
+                })
+                .catch(error => {
+                    console.error("Erè pandan y ap chache done yo:", error);
+                    gallery.innerHTML = '<p class="loading-message">Erè: Nou pa ka chaje pwodwi yo. Tanpri, verifye lyen baz done a.</p>';
+                });
+        });
+
         hamburger.addEventListener('click', () => { document.body.classList.add('sidebar-active'); });
         closeBtn.addEventListener('click', (e) => { e.preventDefault(); document.body.classList.remove('sidebar-active'); });
         searchBar.addEventListener('input', filterProducts);
-        document.addEventListener('DOMContentLoaded', () => { setupCategories(); displayProducts(allProducts); const allCategoryLink = document.querySelector('.category-link[data-category="Tout"]'); if (allCategoryLink) { allCategoryLink.classList.add('active'); } });
     </script>
 </body>
 </html>

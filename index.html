@@ -18,7 +18,23 @@
             --font-main: 'Poppins', sans-serif;
         }
         body { font-family: var(--font-main); margin: 0; background-color: var(--background-color); color: var(--text-color); }
-        header { background-color: var(--primary-color); color: var(--header-text-color); padding: 25px 0; text-align: center; font-size: 2.2em; font-weight: 700; }
+        
+        /* --- NOUVO STIL POU HEADER AK RECHÈCH --- */
+        header { background-color: var(--primary-color); color: var(--header-text-color); padding: 15px 20px; text-align: center; display: flex; justify-content: space-between; align-items: center; }
+        .header-title { font-size: 1.8em; font-weight: 700; }
+        .search-container { width: 50%; }
+        #search-bar { width: 100%; padding: 10px; border-radius: 8px; border: none; background-color: var(--background-color); color: var(--text-color); font-size: 1em; }
+        .hamburger-menu { font-size: 2em; cursor: pointer; }
+
+        /* --- NOUVO STIL POU MENI KATEGORI A --- */
+        .sidebar { height: 100%; width: 280px; position: fixed; z-index: 10; top: 0; left: -280px; /* Kache sou bò goch */ background-color: var(--primary-color); overflow-x: hidden; transition: 0.5s; padding-top: 60px; }
+        .sidebar-active .sidebar { left: 0; }
+        .sidebar .close-btn { position: absolute; top: 15px; right: 25px; font-size: 36px; color: var(--text-color); text-decoration: none; }
+        .sidebar h2 { color: var(--accent-color); padding: 0 32px; }
+        .sidebar ul { list-style-type: none; padding: 0; }
+        .sidebar ul li a { padding: 10px 32px; text-decoration: none; font-size: 1.1em; color: var(--text-color); display: block; transition: 0.3s; }
+        .sidebar ul li a:hover { background-color: var(--accent-color); }
+
         main { padding: 20px; }
         .product-gallery { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; }
         .product-card { background-color: var(--card-color); border: 1px solid var(--primary-color); border-radius: 12px; width: 310px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s, box-shadow 0.3s; }
@@ -32,16 +48,29 @@
         .order-button { display: block; width: 100%; padding: 12px; background-color: var(--accent-color); color: white; text-align: center; text-decoration: none; border-radius: 8px; font-weight: 600; box-sizing: border-box; transition: background-color 0.3s; }
         .order-button:hover { background-color: #5a8ec9; }
         footer { text-align: center; padding: 40px 20px; background-color: var(--primary-color); color: var(--text-color); margin-top: 30px; }
-        .contact-button { background-color: var(--accent-color); color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-size: 1.1em; transition: background-color 0.3s; }
-        .contact-button:hover { background-color: #5a8ec9; }
     </style>
 </head>
 <body>
 
-    <header> Booming Store </header>
+    <nav id="category-menu" class="sidebar">
+        <a href="#" class="close-btn">&times;</a>
+        <h2>Kategori</h2>
+        <ul id="category-list">
+            </ul>
+    </nav>
+
+    <header>
+        <div class="hamburger-menu">&#9776;</div>
+        <div class="header-title">Booming Store</div>
+        <div class="search-container">
+            <input type="search" id="search-bar" placeholder="Chèche yon pwodwi...">
+        </div>
+    </header>
+
     <main>
         <div class="product-gallery" id="product-gallery"></div>
     </main>
+    
     <footer>
         <h2>Ou gen yon kesyon sou yon pwodwi ?</h2>
         <p>Kontakte nou pou tout enfòmasyon ou bezwen.</p>
@@ -49,30 +78,106 @@
     </footer>
 
     <script>
-        const products = [
+        const allProducts = [
              { category: 'Rad', name: 'Vès an Jean Klasik', description: 'Yon vès ki pap janm demode, pou tout sezon...', price: '8,500 G', imageUrl: 'https://images.pexels.com/photos/1082528/pexels-photo-1082528.jpeg?auto=compress&cs=tinysrgb&w=600' },
              { category: 'Aparèy Elektwonik', name: 'Ekoutè san fil Pwo', description: 'Gwo kalite son ak yon sistèm ki anpeche bri deyò antre...', price: '18,000 G', imageUrl: 'https://images.pexels.com/photos/792381/pexels-photo-792381.jpeg?auto=compress&cs=tinysrgb&w=600' },
              { category: 'Krem', name: 'Krèm idratan "Eklat"', description: 'Gen asid yalewonònik pou fè po w rete dous...', price: '3,500 G', imageUrl: 'https://images.pexels.com/photos/3373723/pexels-photo-3373723.jpeg?auto=compress&cs=tinysrgb&w=600' },
              { category: 'Rad', name: 'Ròb Abako Lejè', description: 'Yon bèl ti ròb an abako, pafè pou yon jounen relax.', price: '7,000 G', imageUrl: 'https://images.pexels.com/photos/1755428/pexels-photo-1755428.jpeg?auto=compress&cs=tinysrgb&w=600' },
-             { category: 'Aparèy Elektwonik', name: 'Mont Entelijan (Smartwatch)', description: 'Swiv aktivite fizik ou, resevwa notifikasyon...', price: '22,500 G', imageUrl: 'https://images.pexels.com/photos/110471/pexels-photo-110471.jpeg?auto=compress&cs=tinysrgb&w=600' }
+             { category: 'Aparèy Elektwonik', name: 'Mont Entelijan (Smartwatch)', description: 'Swiv aktivite fizik ou, resevwa notifikasyon...', price: '22,500 G', imageUrl: 'https://images.pexels.com/photos/110471/pexels-photo-110471.jpeg?auto=compress&cs=tinysrgb&w=600' },
+             { category: 'Rad', name: 'Soulye Spò', description: 'Konfòtab e lejè, ideal pou kouri ou mache.', price: '12,000 G', imageUrl: 'https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=600' }
         ];
 
         const gallery = document.getElementById('product-gallery');
-        products.forEach(product => {
-            const card = document.createElement('div');
-            card.className = 'product-card';
-            card.innerHTML = `
-                <img src="${product.imageUrl}" alt="${product.name}" class="product-image">
-                <div class="product-info">
-                    <p class="product-title">${product.name}</p>
-                    <p class="product-description">${product.description}</p>
-                    <p class="product-price">${product.price}</p>
-                </div>
-                <div class="product-actions">
-                    <a href="komand.html?pwodwi=${encodeURIComponent(product.name)}" class="order-button">Kòmande</a>
-                </div>
-            `;
-            gallery.appendChild(card);
+        const searchBar = document.getElementById('search-bar');
+        const categoryList = document.getElementById('category-list');
+        const hamburger = document.querySelector('.hamburger-menu');
+        const closeBtn = document.querySelector('.close-btn');
+
+        // FONKSYON POU AFFICHE PWODWI YO
+        function displayProducts(productsToDisplay) {
+            gallery.innerHTML = ''; // Vide galri a anvan
+            productsToDisplay.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <img src="${product.imageUrl}" alt="${product.name}" class="product-image">
+                    <div class="product-info">
+                        <p class="product-title">${product.name}</p>
+                        <p class="product-description">${product.description}</p>
+                        <p class="product-price">${product.price}</p>
+                    </div>
+                    <div class="product-actions">
+                        <a href="komand.html?pwodwi=${encodeURIComponent(product.name)}" class="order-button">Kòmande</a>
+                    </div>
+                `;
+                gallery.appendChild(card);
+            });
+        }
+
+        // FONKSYON POU FILTRE PWODWI YO
+        function filterProducts() {
+            const searchTerm = searchBar.value.toLowerCase();
+            const selectedCategory = document.querySelector('.category-link.active')?.dataset.category;
+
+            let filteredProducts = allProducts;
+
+            // Filtre pa kategori
+            if (selectedCategory && selectedCategory !== 'Tout') {
+                filteredProducts = filteredProducts.filter(product => product.category === selectedCategory);
+            }
+
+            // Filtre pa rechèch
+            if (searchTerm) {
+                filteredProducts = filteredProducts.filter(product => 
+                    product.name.toLowerCase().includes(searchTerm) ||
+                    product.description.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            displayProducts(filteredProducts);
+        }
+
+        // KREYE LIS KATEGORI A OTOMATIKMAN
+        function setupCategories() {
+            const categories = ['Tout', ...new Set(allProducts.map(p => p.category))];
+            categoryList.innerHTML = '';
+            categories.forEach(category => {
+                const li = document.createElement('li');
+                li.innerHTML = `<a href="#" class="category-link" data-category="${category}">${category}</a>`;
+                categoryList.appendChild(li);
+            });
+            
+            // Ajoute 'event listener' sou chak lyen kategori
+            document.querySelectorAll('.category-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelectorAll('.category-link').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                    filterProducts();
+                    document.body.classList.remove('sidebar-active'); // Fèmen meni an
+                });
+            });
+        }
+        
+        // KONTWÒL POU MENI A
+        hamburger.addEventListener('click', () => {
+            document.body.classList.add('sidebar-active');
+        });
+
+        closeBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.body.classList.remove('sidebar-active');
+        });
+        
+        // KONTWÒL POU BA RECHÈCH LA
+        searchBar.addEventListener('input', filterProducts);
+
+
+        // LÈ PAJ LA FIN CHaje, AFFICHE TOUT BAGAY
+        document.addEventListener('DOMContentLoaded', () => {
+            setupCategories();
+            displayProducts(allProducts);
+            document.querySelector('.category-link[data-category="Tout"]').classList.add('active');
         });
     </script>
 

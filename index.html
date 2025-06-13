@@ -77,109 +77,147 @@
         <a href="mailto:cdish23@gmail.com" class="contact-button">Voye yon imèl pou nou</a>
     </footer>
 
-    <script>
-        const allProducts = [
-             { category: 'Rad', name: 'Vès an Jean Klasik', description: 'Yon vès ki pap janm demode, pou tout sezon...', price: '8,500 G', imageUrl: 'https://images.pexels.com/photos/1082528/pexels-photo-1082528.jpeg?auto=compress&cs=tinysrgb&w=600' },
-             { category: 'Aparèy Elektwonik', name: 'Ekoutè san fil Pwo', description: 'Gwo kalite son ak yon sistèm ki anpeche bri deyò antre...', price: '18,000 G', imageUrl: 'https://images.pexels.com/photos/792381/pexels-photo-792381.jpeg?auto=compress&cs=tinysrgb&w=600' },
-             { category: 'Krem', name: 'Krèm idratan "Eklat"', description: 'Gen asid yalewonònik pou fè po w rete dous...', price: '3,500 G', imageUrl: 'https://images.pexels.com/photos/3373723/pexels-photo-3373723.jpeg?auto=compress&cs=tinysrgb&w=600' },
-             { category: 'Rad', name: 'Ròb Abako Lejè', description: 'Yon bèl ti ròb an abako, pafè pou yon jounen relax.', price: '7,000 G', imageUrl: 'https://images.pexels.com/photos/1755428/pexels-photo-1755428.jpeg?auto=compress&cs=tinysrgb&w=600' },
-             { category: 'Aparèy Elektwonik', name: 'Mont Entelijan (Smartwatch)', description: 'Swiv aktivite fizik ou, resevwa notifikasyon...', price: '22,500 G', imageUrl: 'https://images.pexels.com/photos/110471/pexels-photo-110471.jpeg?auto=compress&cs=tinysrgb&w=600' },
-             { category: 'Rad', name: 'Soulye Spò', description: 'Konfòtab e lejè, ideal pou kouri ou mache.', price: '12,000 G', imageUrl: 'https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=600' }
-        ];
+   <script>
+    // NOUVO LIS PWODWI "TENDANCE"
+    const allProducts = [
+        { 
+            category: 'Akseswa Kay', 
+            name: 'Lanp "Sunset" pou Anbyans', 
+            description: 'Kreye yon bèl anbyans solèy kouche nan chanm ou ak lanp projektè sa a.',
+            price: '4,500 G', 
+            imageUrl: 'https://images.pexels.com/photos/9975132/pexels-photo-9975132.jpeg?auto=compress&cs=tinysrgb&w=600' 
+        },
+        { 
+            category: 'Rad', 
+            name: 'T-shirt "Oversized" Grafik', 
+            description: 'Yon t-shirt ki laj e konfòtab ak yon design grafik ki alamòd.',
+            price: '5,500 G', 
+            imageUrl: 'https://images.pexels.com/photos/7691238/pexels-photo-7691238.jpeg?auto=compress&cs=tinysrgb&w=600' 
+        },
+        { 
+            category: 'Aparèy Elektwonik', 
+            name: 'Mini Projektè Pòtab HD', 
+            description: 'Gade sinema kote w vle ak mini projektè sa a ki ka konekte sou telefòn ou.',
+            price: '15,000 G', 
+            imageUrl: 'https://images.pexels.com/photos/1201996/pexels-photo-1201996.jpeg?auto=compress&cs=tinysrgb&w=600' 
+        },
+        { 
+            category: 'Bote', 
+            name: 'Netwayaj Pinceaux Elektrik', 
+            description: 'Netwaye epi seche tout penso makiyaj ou yo an kèk segonn sèlman.',
+            price: '3,800 G', 
+            imageUrl: 'https://images.pexels.com/photos/8134557/pexels-photo-8134557.jpeg?auto=compress&cs=tinysrgb&w=600' 
+        },
+        { 
+            category: 'Rad', 
+            name: 'Pantalon Kago "Streetwear"', 
+            description: 'Pantalon ak anpil pòch, stil laj, ki pafè pou yon look "streetwear".',
+            price: '9,500 G', 
+            imageUrl: 'https://images.pexels.com/photos/7180731/pexels-photo-7180731.jpeg?auto=compress&cs=tinysrgb&w=600' 
+        },
+        { 
+            category: 'Akseswa Kay', 
+            name: 'Oumidifikatè ak Limyè LED', 
+            description: 'Mete yon bon sant ak yon bon anbyans lakay ou ak aparèy sa a ki 2 an 1.',
+            price: '4,000 G', 
+            imageUrl: 'https://images.pexels.com/photos/7195438/pexels-photo-7195438.jpeg?auto=compress&cs=tinysrgb&w=600' 
+        }
+    ];
 
-        const gallery = document.getElementById('product-gallery');
-        const searchBar = document.getElementById('search-bar');
-        const categoryList = document.getElementById('category-list');
-        const hamburger = document.querySelector('.hamburger-menu');
-        const closeBtn = document.querySelector('.close-btn');
+    const gallery = document.getElementById('product-gallery');
+    const searchBar = document.getElementById('search-bar');
+    const categoryList = document.getElementById('category-list');
+    const hamburger = document.querySelector('.hamburger-menu');
+    const closeBtn = document.querySelector('.close-btn');
 
-        // FONKSYON POU AFFICHE PWODWI YO
-        function displayProducts(productsToDisplay) {
-            gallery.innerHTML = ''; // Vide galri a anvan
-            productsToDisplay.forEach(product => {
-                const card = document.createElement('div');
-                card.className = 'product-card';
-                card.innerHTML = `
-                    <img src="${product.imageUrl}" alt="${product.name}" class="product-image">
-                    <div class="product-info">
-                        <p class="product-title">${product.name}</p>
-                        <p class="product-description">${product.description}</p>
-                        <p class="product-price">${product.price}</p>
-                    </div>
-                    <div class="product-actions">
-                        <a href="komand.html?pwodwi=${encodeURIComponent(product.name)}" class="order-button">Kòmande</a>
-                    </div>
-                `;
-                gallery.appendChild(card);
-            });
+    // FONKSYON POU AFFICHE PWODWI YO
+    function displayProducts(productsToDisplay) {
+        gallery.innerHTML = ''; // Vide galri a anvan
+        productsToDisplay.forEach(product => {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.innerHTML = `
+                <img src="${product.imageUrl}" alt="${product.name}" class="product-image">
+                <div class="product-info">
+                    <p class="product-title">${product.name}</p>
+                    <p class="product-description">${product.description}</p>
+                    <p class="product-price">${product.price}</p>
+                </div>
+                <div class="product-actions">
+                    <a href="komand.html?pwodwi=${encodeURIComponent(product.name)}" class="order-button">Kòmande</a>
+                </div>
+            `;
+            gallery.appendChild(card);
+        });
+    }
+
+    // FONKSYON POU FILTRE PWODWI YO
+    function filterProducts() {
+        const searchTerm = searchBar.value.toLowerCase();
+        const selectedCategory = document.querySelector('.category-link.active')?.dataset.category;
+
+        let filteredProducts = allProducts;
+
+        // Filtre pa kategori
+        if (selectedCategory && selectedCategory !== 'Tout') {
+            filteredProducts = filteredProducts.filter(product => product.category === selectedCategory);
         }
 
-        // FONKSYON POU FILTRE PWODWI YO
-        function filterProducts() {
-            const searchTerm = searchBar.value.toLowerCase();
-            const selectedCategory = document.querySelector('.category-link.active')?.dataset.category;
-
-            let filteredProducts = allProducts;
-
-            // Filtre pa kategori
-            if (selectedCategory && selectedCategory !== 'Tout') {
-                filteredProducts = filteredProducts.filter(product => product.category === selectedCategory);
-            }
-
-            // Filtre pa rechèch
-            if (searchTerm) {
-                filteredProducts = filteredProducts.filter(product => 
-                    product.name.toLowerCase().includes(searchTerm) ||
-                    product.description.toLowerCase().includes(searchTerm)
-                );
-            }
-
-            displayProducts(filteredProducts);
+        // Filtre pa rechèch
+        if (searchTerm) {
+            filteredProducts = filteredProducts.filter(product => 
+                product.name.toLowerCase().includes(searchTerm) ||
+                product.description.toLowerCase().includes(searchTerm)
+            );
         }
 
-        // KREYE LIS KATEGORI A OTOMATIKMAN
-        function setupCategories() {
-            const categories = ['Tout', ...new Set(allProducts.map(p => p.category))];
-            categoryList.innerHTML = '';
-            categories.forEach(category => {
-                const li = document.createElement('li');
-                li.innerHTML = `<a href="#" class="category-link" data-category="${category}">${category}</a>`;
-                categoryList.appendChild(li);
-            });
-            
-            // Ajoute 'event listener' sou chak lyen kategori
-            document.querySelectorAll('.category-link').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    document.querySelectorAll('.category-link').forEach(l => l.classList.remove('active'));
-                    this.classList.add('active');
-                    filterProducts();
-                    document.body.classList.remove('sidebar-active'); // Fèmen meni an
-                });
-            });
-        }
+        displayProducts(filteredProducts);
+    }
+
+    // KREYE LIS KATEGORI A OTOMATIKMAN
+    function setupCategories() {
+        const categories = ['Tout', ...new Set(allProducts.map(p => p.category))];
+        categoryList.innerHTML = '';
+        categories.forEach(category => {
+            const li = document.createElement('li');
+            li.innerHTML = `<a href="#" class="category-link" data-category="${category}">${category}</a>`;
+            categoryList.appendChild(li);
+        });
         
-        // KONTWÒL POU MENI A
-        hamburger.addEventListener('click', () => {
-            document.body.classList.add('sidebar-active');
+        document.querySelectorAll('.category-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.category-link').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                filterProducts();
+                document.body.classList.remove('sidebar-active');
+            });
         });
+    }
+    
+    // KONTWÒL POU MENI A
+    hamburger.addEventListener('click', () => {
+        document.body.classList.add('sidebar-active');
+    });
 
-        closeBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            document.body.classList.remove('sidebar-active');
-        });
-        
-        // KONTWÒL POU BA RECHÈCH LA
-        searchBar.addEventListener('input', filterProducts);
+    closeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.body.classList.remove('sidebar-active');
+    });
+    
+    // KONTWÒL POU BA RECHÈCH LA
+    searchBar.addEventListener('input', filterProducts);
 
-
-        // LÈ PAJ LA FIN CHaje, AFFICHE TOUT BAGAY
-        document.addEventListener('DOMContentLoaded', () => {
-            setupCategories();
-            displayProducts(allProducts);
-            document.querySelector('.category-link[data-category="Tout"]').classList.add('active');
-        });
-    </script>
-
+    // LÈ PAJ LA FIN CHaje, AFFICHE TOUT BAGAY
+    document.addEventListener('DOMContentLoaded', () => {
+        setupCategories();
+        displayProducts(allProducts);
+        // Mete 'Tout' kòm kategori aktif pa defo
+        const allCategoryLink = document.querySelector('.category-link[data-category="Tout"]');
+        if (allCategoryLink) {
+            allCategoryLink.classList.add('active');
+        }
+    });
+</script>
 </body>
 </html>

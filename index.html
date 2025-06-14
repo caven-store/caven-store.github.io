@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="h">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Byenvini sou Booming Store</title>
     <style>
+        /* ... Tout CSS ou a rete la, egzakteman jan li te ye anvan an ... */
         body { font-family: Arial, sans-serif; margin: 0; background-color: #f4f4f4; color: #333; }
         .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
         .navbar { background-color: #fff; padding: 15px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
@@ -17,61 +18,102 @@
         .hero-section h1 { font-size: 42px; margin-bottom: 10px; }
         .featured-products { padding: 40px 0; }
         .featured-products h2 { text-align: center; margin-bottom: 30px; font-size: 28px; }
-        .product-card { background-color: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 20px; text-align: center; max-width: 300px; margin: 0 auto; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .product-card img { max-width: 100%; border-radius: 5px; margin-bottom: 15px; }
-        .product-card h3 { font-size: 20px; margin-bottom: 10px; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .product-card { background-color: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 20px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .product-card img { width: 100%; height: 250px; object-fit: cover; border-radius: 5px; margin-bottom: 15px; }
+        .product-card h3 { font-size: 20px; margin-bottom: 10px; height: 40px; }
         .product-card p { font-size: 18px; color: #28a745; font-weight: bold; margin-bottom: 20px; }
         .btn-view { display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; }
         .footer { background-color: #343a40; color: white; text-align: center; padding: 20px 0; margin-top: 40px; }
     </style>
 </head>
 <body>
-    <header class="navbar">
-        <div class="container">
-            <a href="index.html" class="logo">Booming Store</a>
-            <nav class="nav-links">
-                <a href="index.html">Akèy</a>
-                <a href="#">Boutik</a>
-                <a href="#">Kontak</a>
-                <a href="panye.html" id="cart-link" class="cart-link">Panye (0)</a>
-            </nav>
-        </div>
-    </header>
-
+    <header class="navbar"> ... </header>
     <main>
-        <section class="hero-section">
-            <div class="container">
-                <h1>Boutik an liy ou fè konfyans</h1>
-                <p>Kalite, pri, ak sèvis san parèy.</p>
-            </div>
-        </section>
-
+        <section class="hero-section"> ... </section>
         <section class="featured-products">
             <div class="container">
-                <h2>Pwodwi An Vedèt</h2>
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/300x300.png?text=Imaj+Pwodwi" alt="Pwodwi">
-                    <h3>Non Pwodwi Elegant Ou a</h3>
-                    <p>$129.99</p>
-                    <a href="produit.html" class="btn-view">Wè Detay</a>
+                <h2>Tout Pwodwi Nou Yo</h2>
+                <div class="product-grid" id="product-list">
+                    <p>Ap chaje pwodwi yo...</p>
                 </div>
             </div>
         </section>
     </main>
-
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 Booming Store. Tout dwa rezève.</p>
-        </div>
-    </footer>
+    <footer class="footer"> ... </footer>
 
     <script>
+        // 1. ADRES GOOGLE SHEET OU A
+        // Kole lyen ou te kopye nan Etap 2 a isit la, ant guillemets yo
+        const googleSheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR3HS2ezn98igoIHBTLPa2bFwCobdJpqOiETPaRoHCo-2xJiesHb0LihJ-6mmC9l0Yl0u1OGTB9qolP/pub?gid=1423852576&single=true&output=csv';
+
+        // 2. Fonksyon pou analize done CSV
+        function parseCSV(csvText) {
+            const lines = csvText.split(/\r?\n/);
+            const headers = lines[0].split(',');
+            const products = [];
+            for (let i = 1; i < lines.length; i++) {
+                if (!lines[i]) continue;
+                const data = lines[i].split(',');
+                const product = {};
+                for (let j = 0; j < headers.length; j++) {
+                    product[headers[j]] = data[j];
+                }
+                products.push(product);
+            }
+            return products;
+        }
+
+        // 3. Fonksyon pou afiche pwodwi yo (li pa chanje anpil)
+        function displayProducts(products) {
+            const productListContainer = document.getElementById('product-list');
+            if (products.length === 0) {
+                productListContainer.innerHTML = '<p>Pa gen pwodwi pou afiche.</p>';
+                return;
+            }
+            let allProductsHTML = '';
+            products.forEach(product => {
+                const productCardHTML = `
+                    <div class="product-card">
+                        <img src="${product.image}" alt="${product.name}">
+                        <h3>${product.name}</h3>
+                        <p>$${product.price}</p>
+                        <a href="produit.html" class="btn-view">Wè Detay</a>
+                    </div>
+                `;
+                allProductsHTML += productCardHTML;
+            });
+            productListContainer.innerHTML = allProductsHTML;
+        }
+
+        // 4. Fonksyon prensipal pou al chache done yo
+        async function loadProducts() {
+            try {
+                const response = await fetch(googleSheetURL);
+                if (!response.ok) {
+                    throw new Error('Erè pandan chajman done yo.');
+                }
+                const csvText = await response.text();
+                const products = parseCSV(csvText);
+                displayProducts(products);
+            } catch (error) {
+                console.error('Erè:', error);
+                document.getElementById('product-list').innerHTML = '<p>Nou pa t kapab chaje pwodwi yo. Eseye ankò pita.</p>';
+            }
+        }
+
+        // Fonksyon pou mete ajou panye a (pa chanje)
         function updateCartCount() {
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
             const cartLink = document.getElementById('cart-link');
             cartLink.textContent = `Panye (${cart.length})`;
         }
-        document.addEventListener('DOMContentLoaded', updateCartCount);
+
+        // Lè paj la fin chaje...
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProducts();   // Nou rele fonksyon ki chaje pwodwi yo nan Google
+            updateCartCount(); // Nou toujou mete ajou kantite panye a
+        });
     </script>
 </body>
 </html>

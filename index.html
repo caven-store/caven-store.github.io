@@ -1,665 +1,165 @@
 <!DOCTYPE html>
-<html lang="ht">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <title>Booming Store</title>
+    <title>Paj Pwodwi - Booming Store</title>
+
     <style>
-        :root {
-            --background-color: #121212;
-            --card-color: #1E1E1E;
-            --primary-color: #0D0D0D;
-            --accent-color: #FFA500;
-            --text-color: #EAEAEA;
-            --header-text-color: #FFFFFF;
-            --success-color: #00b894;
-            --font-main: 'Poppins', sans-serif;
-        }
-
         body {
-            font-family: var(--font-main);
-            margin: 0;
-            background-color: var(--background-color);
-            color: var(--text-color);
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
         }
 
-        /* --- Seksyon Hero ak Animasyon --- */
-        .hero-section {
-            height: 60vh;
-            background: var(--primary-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-content {
-            z-index: 2;
-        }
-
-        .hero-title {
-            font-size: 5em;
-            font-weight: 700;
-            perspective: 500px;
-        }
-
-        .hero-title .letter {
-            display: inline-block;
-            opacity: 0;
-            animation: scatterIn 4s ease-in-out infinite;
-        }
-
-        .hero-subtitle {
-            font-size: 1.5em;
-            margin-top: 10px;
-            color: var(--accent-color);
-            opacity: 0;
-            animation: fadeIn 2s ease-out 1.5s forwards;
-        }
-
-        @keyframes scatterIn {
-            0% {
-                opacity: 0;
-                transform: translateY(-200px) translateX(var(--x-from)) rotate(var(--r-from));
-            }
-            30% {
-                opacity: 1;
-                transform: translateY(0) translateX(0) rotate(0) scale(1.2);
-            }
-            70% {
-                opacity: 1;
-                transform: translateY(0) translateX(0) rotate(0) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(200px) translateX(var(--x-to)) rotate(var(--r-to));
-            }
-        }
-
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-            }
-        }
-
-        /* --- Header --- */
-        header {
-            background-color: var(--primary-color);
-            color: var(--header-text-color);
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logo-img {
-            width: 35px;
-            height: 35px;
-        }
-
-        .header-title {
-            font-size: 1.6em;
-            font-weight: 700;
-        }
-        
-        .hamburger-menu {
-            font-size: 2em;
-            cursor: pointer;
-        }
-
-        .search-container {
-            width: 35%;
-        }
-
-        #search-bar {
-            width: 100%;
-            padding: 10px;
+        /* NOUVO: Layout prensipal pou paj la (2 kolòn) */
+        .product-page-layout {
+            display: flex; /* Pèmèt nou kreye kolòn */
+            max-width: 1100px;
+            margin: 40px auto;
+            background-color: white;
+            padding: 20px;
             border-radius: 8px;
-            border: none;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            font-size: 1em;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            gap: 40px; /* Espas ant de kolòn yo */
         }
 
-        /* --- Meni sou kote --- */
-        .sidebar {
-            height: 100%;
-            width: 280px;
-            position: fixed;
-            z-index: 101;
-            top: 0;
-            left: -280px;
-            background-color: var(--primary-color);
-            overflow-x: hidden;
-            transition: 0.5s;
-            padding-top: 60px;
+        /* Kolòn goch: Galri foto a */
+        .product-gallery-column {
+            flex: 1; /* Pran mwatye espas la */
         }
 
-        .sidebar-active .sidebar {
-            left: 0;
+        /* Kolòn dwat: Enfòmasyon sou pwodwi a */
+        .product-info-column {
+            flex: 1; /* Pran lòt mwatye espas la */
         }
 
-        .sidebar .close-btn {
-            position: absolute;
-            top: 15px;
-            right: 25px;
-            font-size: 36px;
-            color: var(--text-color);
-            text-decoration: none;
+        /* --- Seksyon Galri Foto (menm jan anvan) --- */
+        .main-image-container {
+            margin-bottom: 10px;
         }
-
-        .sidebar h2 {
-            color: var(--accent-color);
-            padding: 0 32px;
-        }
-
-        .sidebar ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .sidebar ul li a {
-            padding: 10px 32px;
-            text-decoration: none;
-            font-size: 1.1em;
-            color: var(--text-color);
-            display: block;
-            transition: 0.3s;
+        #mainProductImage {
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid #ddd;
             cursor: pointer;
         }
-
-        .sidebar ul li a:hover {
-            background-color: var(--accent-color);
-        }
-
-        /* --- Kontni Paj --- */
-        .page {
-            padding: 20px;
-        }
-
-        .product-gallery {
+        .thumbnail-container {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 25px;
-            min-height: 50vh;
+            gap: 10px;
         }
-
-        .product-card {
-            background-color: var(--card-color);
-            border: 1px solid var(--primary-color);
-            border-radius: 12px;
-            width: 310px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 8px 25px rgba(255, 165, 0, 0.2);
-        }
-
-        .product-image {
-            width: 100%;
-            height: 220px;
+        .thumbnail-item {
+            width: 80px;
+            height: 80px;
             object-fit: cover;
-            background-color: #333;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .thumbnail-item:hover {
+            border-color: #007bff;
         }
 
-        .product-info {
-            padding: 20px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
+        /* --- NOUVO: Stil pou Enfòmasyon Pwodwi --- */
         .product-title {
-            font-size: 1.3em;
-            font-weight: 600;
-            margin: 0 0 10px 0;
-            color: var(--header-text-color);
-        }
-
-        .product-description {
-            font-size: 0.9em;
-            margin: 0 0 15px 0;
-            line-height: 1.5;
+            font-size: 28px;
+            font-weight: bold;
+            margin-top: 0;
+            margin-bottom: 15px;
         }
 
         .product-price {
-            font-size: 1.2em;
-            font-weight: 700;
-            color: var(--accent-color);
-            margin-top: auto;
-        }
-
-        .product-actions {
-            padding: 0 20px 20px 20px;
-        }
-
-        .order-button {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background-color: var(--accent-color);
-            color: white;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            box-sizing: border-box;
-            transition: background-color 0.3s;
-            cursor: pointer;
-        }
-
-        .order-button:hover {
-            opacity: 0.8;
-        }
-
-        .loading-message {
-            font-size: 1.5em;
-            text-align: center;
-            color: var(--text-color);
-        }
-
-        /* --- Fòmilè ak Paj Mèsi --- */
-        .form-container,
-        .thank-you-container {
-            max-width: 600px;
-            margin: 40px auto;
-            padding: 40px;
-            background-color: var(--card-color);
-            border-radius: 12px;
-        }
-
-        .thank-you-container {
-            text-align: center;
-        }
-
-        .thank-you-container h1 {
-            font-size: 2.5em;
-            color: var(--success-color);
-            margin-top: 0;
-        }
-
-        .instructions {
-            margin-top: 30px;
-            padding: 20px;
-            border: 1px solid var(--primary-color);
-            border-radius: 8px;
-            text-align: left;
-        }
-
-        .instructions h2 {
-            color: var(--success-color);
-        }
-
-        .payment-info {
-            font-size: 1.2em;
-            font-weight: 700;
-            color: var(--header-text-color);
-            background-color: var(--background-color);
-            padding: 10px;
-            border-radius: 5px;
-            user-select: all;
-            flex-grow: 1;
-            margin: 0;
-        }
-        .copy-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-        .copy-btn {
-            padding: 8px 12px;
-            background-color: #3f72af;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.9em;
-            transition: background-color 0.2s;
-        }
-        .copy-btn:hover {
-            opacity: 0.8;
-        }
-
-        .form-group {
+            font-size: 24px;
+            color: #28a745; /* Vè pou pri a */
+            font-weight: bold;
             margin-bottom: 20px;
         }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
+        
+        .product-description {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #6c757d; /* Koulè gri pou tèks la */
         }
 
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--primary-color);
-            background-color: var(--background-color);
-            color: var(--text-color);
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-family: var(--font-main);
-        }
-
-        .submit-button {
+        .add-to-cart-btn {
             display: block;
             width: 100%;
             padding: 15px;
-            background-color: var(--accent-color);
+            background-color: #007bff; /* Koulè ble pou bouton an */
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 1.1em;
+            border-radius: 5px;
+            font-size: 18px;
             font-weight: bold;
             cursor: pointer;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-top: 25px;
-            color: var(--accent-color);
-            cursor: pointer;
-        }
-
-        /* --- Footer --- */
-        footer {
             text-align: center;
-            padding: 40px 20px;
-            background-color: var(--primary-color);
-            color: var(--text-color);
-            margin-top: 30px;
+            transition: background-color 0.3s;
         }
+        
+        .add-to-cart-btn:hover {
+            background-color: #0056b3; /* Yon ble pi fonse lè sourit la anlè li */
+        }
+
+        /* --- Seksyon Lightbox (menm jan anvan) --- */
+        .lightbox-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); justify-content: center; align-items: center; z-index: 1000; }
+        .lightbox-image { max-width: 90%; max-height: 80%; }
+        .close-button { position: absolute; top: 20px; right: 30px; font-size: 40px; color: white; cursor: pointer; }
+
     </style>
 </head>
-
 <body>
-    <div id="app">
-        <nav id="category-menu" class="sidebar">
-            <a href="javascript:void(0)" class="close-btn">&times;</a>
-            <h2>Kategori</h2>
-            <ul id="category-list"></ul>
-        </nav>
 
-        <div class="hero-section">
-            <div class="hero-content">
-                <h1 class="hero-title" aria-label="Booming Store"></h1>
-                <p class="hero-subtitle">Boutik ou, Stil ou.</p>
+    <div class="product-page-layout">
+
+        <div class="product-gallery-column">
+            <div class="main-image-container">
+                <img id="mainProductImage" src="https://via.placeholder.com/500x500.png?text=Imaj+Prensipal" alt="Vue principale du produit">
+            </div>
+            <div class="thumbnail-container">
+                <img class="thumbnail-item" src="https://via.placeholder.com/500x500.png?text=Imaj+Prensipal" alt="Vue 1" onclick="changeMainImage(this.src)">
+                <img class="thumbnail-item" src="https://via.placeholder.com/500x500.png?text=Imaj+2" alt="Vue 2" onclick="changeMainImage(this.src)">
+                <img class="thumbnail-item" src="https://via.placeholder.com/500x500.png?text=Imaj+3" alt="Vue 3" onclick="changeMainImage(this.src)">
+                <img class="thumbnail-item" src="https://via.placeholder.com/500x500.png?text=Imaj+4" alt="Vue 4" onclick="changeMainImage(this.src)">
             </div>
         </div>
 
-        <header>
-            <div class="hamburger-menu">&#9776;</div>
-            <div class="logo-container">
-                <img src="https://icongr.am/feather/shopping-bag.svg?color=ffffff" alt="Booming Store Logo" class="logo-img">
-            </div>
-            <div class="search-container">
-                <input type="search" id="search-bar" placeholder="Chèche yon pwodwi...">
-            </div>
-        </header>
-
-        <div id="page-main" class="page">
-            <main>
-                <div class="product-gallery" id="product-gallery">
-                    <p class="loading-message">Ap chaje pwodwi yo...</p>
-                </div>
-            </main>
+        <div class="product-info-column">
+            <h1 class="product-title">Non Pwodwi Elegant Ou a</h1>
+            <p class="product-price">$129.99</p>
+            <p class="product-description">
+                Sa a se yon deskripsyon tou kout pou pwodwi a. Ou ka mete detay sou materyèl li, dimansyon li, ak nenpòt lòt enfòmasyon ki enpòtan pou kliyan an.
+            </p>
+            <button class="add-to-cart-btn">Ajoute nan Panye</button>
         </div>
 
-        <div id="page-order" class="page" style="display: none;">
-            <div class="form-container">
-                <h1>Konfime Kòmann Ou</h1>
-                <div class="product-name" id="order-product-display"></div>
-                <form id="order-form" method="POST">
-                    <input type="hidden" id="order-product-input" name="Pwodwi">
-                    <input type="hidden" id="order-id-input" name="Kod_Komann">
-                    <div class="form-group">
-                        <label for="name">Non konplè ou</label>
-                        <input type="text" id="name" name="Non_Kliyan" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="contact">Imèl ou Telefòn ou</label>
-                        <input type="text" id="contact" name="Kontak_Kliyan" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="address">Adrès Livrezon Konplè</label>
-                        <textarea id="address" name="Adres_Livrezon" rows="4" required placeholder="Ekri adrès ou an detay la..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="quantity">Kantite</label>
-                        <input type="number" id="quantity" name="Kantite" value="1" min="1" required>
-                    </div>
-                    <button type="submit" class="submit-button">Voye Kòmann sa a</button>
-                </form>
-                <a class="back-link" onclick="showPage('main')">Retounen nan boutik la</a>
-            </div>
-        </div>
+    </div>
 
-        <div id="page-thank-you" class="page" style="display: none;">
-            <div class="thank-you-container">
-                <h1>Mèsi Anpil!</h1>
-                <p>Nou byen resevwa kòmann ou an. N ap kontakte w sou lakay yon ti moman pou nou konfime tout bagay avè w.</p>
-                <div class="instructions">
-                    <h2>Pwochen Etap: Peman</h2>
-                    <p>Pou finalize kòmann ou an, tanpri itilize <strong>Kòd Kòmann</strong> sa a kòm referans nan tranzaksyon MonCash ou a:</p>
-                    <div class="copy-container">
-                        <p class="payment-info" id="thank-you-order-id"></p>
-                        <button class="copy-btn" onclick="copyToClipboard('thank-you-order-id', this)">Kopye</button>
-                    </div>
-                    <p>Voye peman an sou nimewo sa a:</p>
-                    <div class="copy-container">
-                        <p class="payment-info" id="moncash-number">+50944560513</p>
-                        <button class="copy-btn" onclick="copyToClipboard('moncash-number', this)">Kopye</button>
-                    </div>
-                </div>
-                <a class="back-link" onclick="showPage('main')">Retounen nan Paj Akèy la</a>
-            </div>
-        </div>
-
-        <footer>
-            <h2>Ou gen yon kesyon?</h2>
-            <p>Kontakte nou pou tout enfòmasyon.</p>
-            <a href="mailto:cdish23@gmail.com" class="contact-button">Voye yon imèl</a>
-        </footer>
+    <div id="lightbox" class="lightbox-overlay">
+        <span class="close-button">&times;</span>
+        <img id="lightboxImage" class="lightbox-image" src="" alt="Image en plein écran">
     </div>
 
     <script>
-        const DATABASE_URL = 'https://docs.google.com/spreadsheets/d/13GodGq2xIkY7W0v6OeTBD0tgyDJ2lRQAGjO4-83fFqY/gviz/tq?tqx=out:json';
-        let allProducts = [];
-        const pages = {
-            main: document.getElementById('page-main'),
-            order: document.getElementById('page-order'),
-            thankYou: document.getElementById('page-thank-you')
-        };
-        
-        // Kòd pou animasyon an
-        const titleElement = document.querySelector('.hero-title');
-        const titleText = "Booming Store";
-        titleElement.innerHTML = ''; 
-        titleText.split('').forEach((letter, i) => {
-            const span = document.createElement('span');
-            span.className = 'letter';
-            span.textContent = letter === ' ' ? '\u00A0' : letter;
-            span.style.setProperty('--x-from', `${Math.random() * 400 - 200}px`);
-            span.style.setProperty('--r-from', `${Math.random() * 360 - 180}deg`);
-            span.style.setProperty('--x-to', `${Math.random() * 400 - 200}px`);
-            span.style.setProperty('--r-to', `${Math.random() * 360 - 180}deg`);
-            span.style.animationDelay = `${i * 0.05}s`;
-            titleElement.appendChild(span);
+        function changeMainImage(newImageSrc) {
+            document.getElementById('mainProductImage').src = newImage_src;
+        }
+        const mainImage = document.getElementById('mainProductImage');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightboxImage');
+        const closeButton = document.querySelector('.close-button');
+        mainImage.addEventListener('click', function() {
+            lightboxImage.src = this.src;
+            lightbox.style.display = 'flex';
         });
-
-        function generateOrderID() {
-            const prefix = 'BMS-';
-            const randomNumber = Math.floor(10000 + Math.random() * 90000);
-            return prefix + randomNumber;
-        }
-
-        function showPage(pageName, data) {
-            Object.values(pages).forEach(page => page.style.display = 'none');
-            pages[pageName].style.display = 'block';
-            window.scrollTo(0, 0);
-
-            if (pageName === 'order' && data) {
-                const orderID = generateOrderID();
-                document.getElementById('order-product-display').textContent = data.productName;
-                document.getElementById('order-product-input').value = data.productName;
-                document.getElementById('order-id-input').value = orderID;
-            }
-            if (pageName === 'thankYou' && data) {
-                document.getElementById('thank-you-order-id').textContent = data.orderID;
-            }
-        }
-
-        function copyToClipboard(elementId, buttonElement) {
-            const textToCopy = document.getElementById(elementId).textContent;
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                const originalText = buttonElement.textContent;
-                buttonElement.textContent = 'Kopye!';
-                buttonElement.style.backgroundColor = 'var(--success-color)';
-                setTimeout(() => {
-                    buttonElement.textContent = originalText;
-                    buttonElement.style.backgroundColor = '#3f72af';
-                }, 2000);
-            }).catch(err => {
-                console.error('Erè lè w ap kopye: ', err);
-                alert("Navigatè w la pa pèmèt ou kopye otomatikman.");
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const form = document.getElementById('order-form');
-            form.action = "https://formspree.io/f/mwpbojgy";
-
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const formData = new FormData(form);
-                const orderID = formData.get('Kod_Komann');
-
-                fetch(form.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {'Accept': 'application/json'}
-                }).then(response => {
-                    if (response.ok) {
-                        showPage('thankYou', { orderID: orderID });
-                        form.reset();
-                    } else {
-                        alert("Erè! Kòmann nan pa ale. Eseye ankò.");
-                    }
-                }).catch(error => {
-                    alert("Erè! Kòmann nan pa ale. Eseye ankò.");
-                });
-            });
-            
-            fetch(DATABASE_URL)
-                .then(res => res.text())
-                .then(text => {
-                    const jsonData = JSON.parse(text.substring(47, text.length - 2));
-                    allProducts = jsonData.table.rows.map(row => ({
-                        name: row.c[0]?.v || '', category: row.c[1]?.v || '',
-                        description: row.c[2]?.v || '', price: row.c[3]?.v || '',
-                        imageurl: row.c[4]?.v || ''
-                    }));
-                    displayProducts(allProducts);
-                    setupCategories();
-                }).catch(err => {
-                    console.error("Erè chajman done yo:", err);
-                    document.getElementById('product-gallery').innerHTML = '<p class="loading-message">Erè: Nou pa ka chaje pwodwi yo.</p>';
-                });
+        closeButton.addEventListener('click', function() {
+            lightbox.style.display = 'none';
         });
-        
-        function displayProducts(productsToDisplay) {
-            const gallery = document.getElementById('product-gallery');
-            gallery.innerHTML = '';
-            if (!productsToDisplay || productsToDisplay.length === 0) {
-                gallery.innerHTML = '<p class="loading-message">Okenn pwodwi pa koresponn.</p>';
-                return;
+        lightbox.addEventListener('click', function(event) {
+            if (event.target === lightbox) {
+                lightbox.style.display = 'none';
             }
-            productsToDisplay.forEach(product => {
-                const card = document.createElement('div');
-                card.className = 'product-card';
-                card.innerHTML = `<img src="${product.imageurl}" alt="${product.name}" class="product-image"><div class="product-info"><p class="product-title">${product.name}</p><p class="product-description">${product.description}</p><p class="product-price">${product.price}</p></div>`;
-                const actions = document.createElement('div');
-                actions.className = 'product-actions';
-                const orderButton = document.createElement('a');
-                orderButton.className = 'order-button';
-                orderButton.textContent = 'Kòmande';
-                orderButton.onclick = () => showPage('order', { productName: product.name });
-                actions.appendChild(orderButton);
-                card.appendChild(actions);
-                gallery.appendChild(card);
-            });
-        }
-        
-        function setupCategories() {
-            const categoryList = document.getElementById('category-list');
-            categoryList.innerHTML = '';
-            const categories = ['Tout', ...new Set(allProducts.map(p => p.category).filter(c => c))];
-            categories.forEach(category => {
-                const li = document.createElement('li');
-                const link = document.createElement('a');
-                link.className = 'category-link';
-                link.dataset.category = category;
-                link.textContent = category;
-                link.onclick = (e) => {
-                    e.preventDefault();
-                    document.querySelectorAll('.category-link').forEach(l => l.classList.remove('active'));
-                    link.classList.add('active');
-                    filterProducts();
-                    document.body.classList.remove('sidebar-active');
-                };
-                li.appendChild(link);
-                categoryList.appendChild(li);
-            });
-            document.querySelector('.category-link[data-category="Tout"]')?.classList.add('active');
-        }
-
-        function filterProducts() {
-            const searchTerm = document.getElementById('search-bar').value.toLowerCase();
-            const activeCategoryLink = document.querySelector('.category-link.active');
-            const selectedCategory = activeCategoryLink ? activeCategoryLink.dataset.category : 'Tout';
-            let filteredProducts = allProducts;
-            if (selectedCategory && selectedCategory !== 'Tout') {
-                filteredProducts = filteredProducts.filter(p => p.category === selectedCategory);
-            }
-            if (searchTerm) {
-                filteredProducts = filteredProducts.filter(p => p.name.toLowerCase().includes(searchTerm) || p.description.toLowerCase().includes(searchTerm));
-            }
-            displayProducts(filteredProducts);
-        }
-        
-        document.querySelector('.hamburger-menu').addEventListener('click', () => document.body.classList.add('sidebar-active'));
-        document.querySelector('.close-btn').addEventListener('click', (e) => {
-            e.preventDefault();
-            document.body.classList.remove('sidebar-active');
         });
-        document.getElementById('search-bar').addEventListener('input', filterProducts);
     </script>
-</body>
 
+</body>
 </html>

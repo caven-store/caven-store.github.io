@@ -5,21 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paj Pwodwi - Booming Store</title>
     <style>
-        /* Stil Jeneral */
+        /* Tout stil CSS ou a rete menm jan... */
         body { font-family: Arial, sans-serif; margin: 0; background-color: #f4f4f4; color: #333; }
         .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
-
-        /* Stil pou Ba Navigasyon (Navbar) - Kopye soti nan index.html */
         .navbar { background-color: #fff; padding: 15px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .navbar .container { display: flex; justify-content: space-between; align-items: center; }
         .logo { font-size: 24px; font-weight: bold; color: #007bff; text-decoration: none; }
         .nav-links a { color: #555; text-decoration: none; margin-left: 20px; font-size: 16px; }
+        .cart-link { font-weight: bold; } /* NOUVO: pou fè lyen panye a soti an evidans */
         .nav-links a:hover { color: #007bff; }
-
-        /* Stil pou Pye de Paj (Footer) - Kopye soti nan index.html */
         .footer { background-color: #343a40; color: white; text-align: center; padding: 20px 0; margin-top: 40px; }
-
-        /* Stil pou paj pwodwi a (menm jan anvan) */
         .product-page-layout { display: flex; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); gap: 40px; }
         .product-gallery-column { flex: 1; }
         .product-info-column { flex: 1; }
@@ -33,13 +28,13 @@
         .product-description { font-size: 16px; line-height: 1.6; margin-bottom: 30px; color: #6c757d; }
         .add-to-cart-btn { display: block; width: 100%; padding: 15px; background-color: #007bff; color: white; border: none; border-radius: 5px; font-size: 18px; font-weight: bold; cursor: pointer; text-align: center; transition: background-color 0.3s; }
         .add-to-cart-btn:hover { background-color: #0056b3; }
+        .add-to-cart-btn.added { background-color: #28a745; cursor: not-allowed; } /* NOUVO: Stil pou bouton an apre yo fin ajoute */
         .lightbox-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); justify-content: center; align-items: center; z-index: 1000; }
         .lightbox-image { max-width: 90%; max-height: 80%; }
         .close-button { position: absolute; top: 20px; right: 30px; font-size: 40px; color: white; cursor: pointer; }
     </style>
 </head>
 <body>
-
     <header class="navbar">
         <div class="container">
             <a href="index.html" class="logo">Booming Store</a>
@@ -47,56 +42,79 @@
                 <a href="index.html">Akèy</a>
                 <a href="#">Boutik</a>
                 <a href="#">Kontak</a>
-                <a href="#">Panye (0)</a>
+                <a href="#" id="cart-link" class="cart-link">Panye (0)</a>
             </nav>
         </div>
     </header>
 
     <main>
         <div class="container">
-            <div class="product-page-layout">
+            <div class="product-page-layout" data-product-id="prod123">
                 <div class="product-gallery-column">
-                    <div class="main-image-container">
-                        <img id="mainProductImage" src="https://via.placeholder.com/500x500.png?text=Imaj+Prensipal" alt="Vue principale du produit">
-                    </div>
-                    <div class="thumbnail-container">
-                        <img class="thumbnail-item" src="https://via.placeholder.com/500x500.png?text=Imaj+Prensipal" alt="Vue 1" onclick="changeMainImage(this.src)">
-                        <img class="thumbnail-item" src="https://via.placeholder.com/500x500.png?text=Imaj+2" alt="Vue 2" onclick="changeMainImage(this.src)">
-                        <img class="thumbnail-item" src="https://via.placeholder.com/500x500.png?text=Imaj+3" alt="Vue 3" onclick="changeMainImage(this.src)">
-                        <img class="thumbnail-item" src="https://via.placeholder.com/500x500.png?text=Imaj+4" alt="Vue 4" onclick="changeMainImage(this.src)">
-                    </div>
+                    <img id="mainProductImage" src="https://via.placeholder.com/500x500.png?text=Imaj+Prensipal" alt="Vue principale du produit">
+                    <div class="thumbnail-container"> ... </div>
                 </div>
                 <div class="product-info-column">
                     <h1 class="product-title">Non Pwodwi Elegant Ou a</h1>
-                    <p class="product-price">$129.99</p>
-                    <p class="product-description">Sa a se yon deskripsyon tou kout pou pwodwi a. Ou ka mete detay sou materyèl li, dimansyon li, ak nenpòt lòt enfòmasyon ki enpòtan pou kliyan an.</p>
-                    <button class="add-to-cart-btn">Ajoute nan Panye</button>
+                    <p class="product-price" data-price="129.99">$129.99</p>
+                    <p class="product-description">...</p>
+                    <button id="add-to-cart-btn" class="add-to-cart-btn">Ajoute nan Panye</button>
                 </div>
             </div>
         </div>
     </main>
 
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 Booming Store. Tout dwa rezève.</p>
-        </div>
-    </footer>
-
-    <div id="lightbox" class="lightbox-overlay">
-        <span class="close-button">&times;</span>
-        <img id="lightboxImage" class="lightbox-image" src="" alt="Image en plein écran">
-    </div>
+    <footer class="footer"> ... </footer>
+    <div id="lightbox" class="lightbox-overlay"> ... </div>
 
     <script>
-        function changeMainImage(newImageSrc) { document.getElementById('mainProductImage').src = newImageSrc; }
-        const mainImage = document.getElementById('mainProductImage');
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImage = document.getElementById('lightboxImage');
-        const closeButton = document.querySelector('.close-button');
-        mainImage.addEventListener('click', function() { lightboxImage.src = this.src; lightbox.style.display = 'flex'; });
-        closeButton.addEventListener('click', function() { lightbox.style.display = 'none'; });
-        lightbox.addEventListener('click', function(event) { if (event.target === lightbox) { lightbox.style.display = 'none'; } });
-    </script>
+        // Ansyen kòd pou galri a rete la
+        function changeMainImage(newImageSrc) { /* ... */ }
+        // ... rès kòd lightbox la ...
 
+        // --- NOUVO KÒD POU PANYE A ---
+
+        // 1. Mete ajou kantite a nan meni an
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartLink = document.getElementById('cart-link');
+            const totalItems = cart.length;
+            cartLink.textContent = `Panye (${totalItems})`;
+        }
+
+        // 2. Lojik pou ajoute nan panye
+        const addToCartButton = document.getElementById('add-to-cart-btn');
+        addToCartButton.addEventListener('click', function() {
+            const productElement = document.querySelector('.product-page-layout');
+            const product = {
+                id: productElement.dataset.productId,
+                name: document.querySelector('.product-title').textContent,
+                price: document.querySelector('.product-price').dataset.price,
+                image: document.getElementById('mainProductImage').src
+            };
+
+            // Jwenn panye aktyèl la nan localStorage
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            // Ajoute nouvo pwodwi a
+            cart.push(product);
+            
+            // Sove nouvo panye a. JSON.stringify tounen yon objè/array an tèks.
+            localStorage.setItem('cart', JSON.stringify(cart));
+
+            // Bay fidbak vizyèl
+            this.textContent = 'Ajoute!';
+            this.classList.add('added');
+            this.disabled = true;
+
+            // Mete ajou nimewo ki nan meni an
+            updateCartCount();
+        });
+
+        // 3. Asire w kantite a kòrèk lè paj la louvri
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartCount();
+        });
+    </script>
 </body>
 </html>

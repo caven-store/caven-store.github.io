@@ -150,6 +150,19 @@
             <p>&copy; 2025 Booming Store. Tout dwa rezève.</p>
         </div>
     </footer>
+<script>
+    // Fonksyon sa a ap mete ajou nimewo ki nan meni an
+    function updateCartCount() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const cartLink = document.getElementById('cart-link');
+        const totalItems = cart.length;
+        cartLink.textContent = `Panye (${totalItems})`;
+    }
 
+    // Rele fonksyon an le pli vit ke paj la fin chaje
+    document.addEventListener('DOMContentLoaded', function() {
+        updateCartCount();
+    });
+</script>
 </body>
 </html>
